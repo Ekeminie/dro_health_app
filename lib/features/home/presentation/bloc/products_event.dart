@@ -38,7 +38,8 @@ class GetCartProductsEvents extends ProductsEvent {}
 
 class SelectCategoryEvents extends ProductsEvent {
   final Category? category;
-  SelectCategoryEvents({this.category});
+  final bool? isSelected;
+  SelectCategoryEvents({this.category, this.isSelected});
 
 }
 

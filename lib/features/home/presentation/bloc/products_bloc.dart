@@ -75,15 +75,10 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
     }
 
     if (event is UpdateCartEvent) {
-      // cartObjects.forEach((element) {
-      // if (element.product!.name == event.product!.name &&
-      // element.product!.amount == event.product!.amount) {
-      // element.quantity = event.quantity;
-      // } else {
+     
       cartObjects
           .add(CartModel(product: event.product, quantity: event.quantity));
-      // }
-      // });
+   
 
       print(cartObjects.length);
       yield HasAddedCartProductsState(product: cartObjects);
@@ -104,12 +99,18 @@ class ProductsBloc extends Bloc<ProductsEvent, ProductsState> {
 
     if(event is SelectCategoryEvents){
       List<Product>? results=[];
-
       for(var item in shopItems!){
         if(item.category==event.category){
           results.add(item);
       }
-       yield HasSelectedCategoryState(products: results);
+
+       if(event.isSelected==true){
+         print(results.length);
+        yield HasSelectedCategoryState(products: results);
+       }else{
+         yield HasProductsAndCategoryState(
+          categories: categories, products: shopItems);
+       } 
     }
   }
 }

@@ -27,6 +27,8 @@ class PharmacyPage extends StatefulWidget {
 class _PharmacyPageState extends State<PharmacyPage> {
   List<CartModel>? _cartItems = [];
 
+  bool? isAlreadySelected;
+
   List<Product>? shopItems = [];
 
   List<Product>? searchresults = [];
@@ -58,13 +60,13 @@ class _PharmacyPageState extends State<PharmacyPage> {
           if (state is HasSelectedCategoryState) {
             shopItems = [];
             shopItems = state.products;
+          
           }
 
           if (state is HasQueriedProductState) {
             print("current page state: $state");
             searchresults = [];
             searchresults = state.searchResults;
-            return _buildSearchResults(context);
           }
         },
         child:
@@ -243,38 +245,24 @@ class _PharmacyPageState extends State<PharmacyPage> {
                                                 itemCount: categories!.length,
                                                 itemBuilder: (context, index) =>
                                                     InkWell(
-                                                      onTap: (){
-                                                        //check if a previous category was already selected
-                                                        bool isAlreadySelected =
-                                                            false;
-                                                        if (categories![index]
-                                                            .isSelected!) {
-                                                          isAlreadySelected =
-                                                              true;
-                                                        }
-
-                                                        //revert the list the initial state
-                                                        
+                                                      onTap: () {
+isAlreadySelected = categories![index].isSelected;
                                                         for (var e
                                                             in categories!) {
                                                           e.isSelected = false;
                                                         }
 
+                                                        //show selected category
+                                                        categories![index].isSelected = !isAlreadySelected!;
+
+
+ _bloc.add(
+                                                              SelectCategoryEvents(
+                                                                  category:
+                                                                      categories![
+                                                                          index].category,isSelected:categories![index]
+                                                                    .isSelected), );
                                                         
-
-//show selected category
-
-                                                        setState(() {
-                                                          if (!isAlreadySelected) {
-                                                            categories![index]
-                                                                    .isSelected =
-                                                                true;
-                                                            _bloc.add(SelectCategoryEvents(
-                                                                category: categories![
-                                                                        index]
-                                                                    .category));
-                                                          } 
-                                                        });
                                                       },
                                                       child: CategoryItemWidget(
                                                         category:

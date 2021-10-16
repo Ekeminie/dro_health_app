@@ -4,7 +4,6 @@ import 'package:dro_health_app/core/pallet.dart';
 import 'package:dro_health_app/core/widgets/custom_appbar.dart';
 import 'package:dro_health_app/core/widgets/gradient_button.dart';
 import 'package:dro_health_app/core/widgets/single_cart_item.dart';
-import 'package:dro_health_app/features/home/data/models/cart_model.dart';
 import 'package:dro_health_app/features/home/presentation/bloc/products_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -38,12 +37,14 @@ class _CartPageState extends State<CartPage> {
                             backgroundColor: Colors.green,
                           ));
           }
+
+          
         },
         child:
             BlocBuilder<ProductsBloc, ProductsState>(
               builder: (context, state) {
           if (state is HasCartProductsState) {
-            // cart = state.cartItems!;
+            
           }
 
           return Scaffold(
